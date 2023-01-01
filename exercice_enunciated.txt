@@ -1,0 +1,143 @@
+The dataset for this course project was collected from the Open Food repo, a community-driven open database for barcoded food products. This dataset contains the ingredients and nutritional facts of approximately 385k food products, from several countries worldwide.
+
+More specifically, the dataset contains the following information for each food product (source):
+
+id: The ID used by the OpenFood database for this Product.
+barcode: Product barcode.
+ingredients_en: The ingredients of the Product in English as provided by the manufacturer.
+quantity: The dry net weight or volume of the Product. To be used in conjunction with the unit.
+unit: The unit used by quantity to measure the weight or volume of the Product (usually g or ml).
+portion_quantity: The dry net weight or volume of a serving size of the Product. To be used in conjunction with portion_unit.
+portion_unit: The unit used by portion_quantity to measure the weight or volume of a serving size of the Product (usually g or ml).
+hundred_unit: The unit used for the “per hundred” product nutrients (usually g or ml).
+alcohol_by_volume: The percentage of alcohol in the Product.
+nutrients: The Product’s nutrients as described by the manufacturer.
+created_at: UTC DateTime at which this Product was added to the OpenFood database.
+updated_at: UTC DateTime at which this Product (or one of its subordinate objects, including images nutrients) was last modified.
+
+What should your Git repository look like?
+
+Please consider the following points when submitting your project.
+
+Your GitHub repository should only contain the solution notebook(s).
+You can split your work into several notebooks if you want (e.g., Tasks_A-B.ipynb, Tasks_C-F.ipynb, etc.).
+Please remove any files that you don’t want us to review (e.g., from older submissions).
+You don’t need to upload the dataset to your GitHub repository.
+
+What should your notebooks look like? The layout of a notebook
+
+Your notebook(s) should use code and markdown cells. Use headers and titles in your markdown cells to divide your notebook(s) into logical sections and subsections. Add markdown cells between code cells to document what you are doing and why. You should include a brief explanation of your thoughts and a detailed discussion of your approaches, observations, and decisions for each task. Restart kernel & run all code cells
+
+It must be possible for instructors to run your notebook(s) from beginning to end without amending the code or generating any error messages. The quickest way to achieve this is to click on the “Kernel” tab in your notebook(s) and select the “Restart Kernel & Run All” option at the end of your project. Save and upload the executed, error-free notebook(s) to your GitHub repository. Plotting
+
+All plots in your notebook(s) should be self-explanatory, i.e., we should understand what is plotted without reading comments or code. Ensure that all of the plots have appropriate labels, titles, and legends (if applicable). Also, ensure that all plots and fonts have proper sizes. Code of conduct and plagiarism
+
+All content (e.g., code and comments) in your project submission is either (1) written by yourself or (2) where this is not the case, that you clearly highlight the extent of the copied content and provide a reference to its source. Not abiding by this rule is called plagiarism and can lead to penalties (see EPFL’s Directives and the consequences of committing plagiarism).
+
+    List of tasks
+
+A. An overview of the dataset
+
+This task aims to gain some general information about the dataset before starting your exploration journey.
+
+Import the data as a pandas DataFrame into your notebook.
+Check the number of rows and columns. You should have 385’384 samples and 99 columns.
+Display a few entries from the DataFrame.
+Check the data type for each column. Create separate lists to hold the names of columns of the same data type.
+
+B. Preliminary Exploratory Data Analysis
+
+Now that you have a first overview of the dataset, your goal is to get familiar with its strengths and weaknesses and prepare it for the in-depth analysis you will perform in the following tasks. Please complete the following subtasks.
+
+Are there any duplicated products in the data? Can you remove them? What is the shape of the remaining data?
+Show the proportion of missing values in the data using appropriate visualizations and numerical summaries.
+Now that you know the extent of missing values in the data, you should address them. Your goal is to keep as much data as possible in your DataFrame. What is the shape of the remaining data?
+Let’s continue exploring the categorical variables in more detail. What is the number of unique values in categorical variables? Show the proportion of samples in each categorical level in the variables country and unit using appropriate visualizations.
+Provide descriptive statistics (e.g., min/max/mean) and informative plots (e.g., histograms) of the numerical variables. You should obtain these plots as subplots.
+Address any unrealistic values or errors. The statistics and your plots of the per_hundred columns (e.g. protein_per_hundred, fat_per_hundred, etc.) can help you spot these values. Afterwards re-do the descriptive statistics and plots to check everything is ok now. Below are some additional tips and hints.
+    Create a new list to hold the columns with the per_hundred suffix in their names.
+    The range of acceptable values in each column depends on the unit of each column. You can find the unit of each column in the associated unit column. For example, the protein_per_hundred column unit is found in the protein_unit column, etc.
+    The unit of the protein_per_hundred column is g, which means that the values in this column should range between 0
+
+and 100 . If a column’s unit is mg, then the values should range between 0 and 105
+
+    .
+    If a column’s unit is in International units (IU), you can use the “Mass equivalents of 1 IU” indicated on this Wikipedia page to define an upper threshold value.
+
+You may find the following table showing a plausible range of values for each unit useful.
+
+Unit Range of values Source g [0, 100] - mg [0, 105 ] - µg [0, 108 ] - kJ [0, 3700] (Wikipedia) 1 IU Vitamin A [0, 3.3×108 ] (Wikipedia) 1 IU Vitamin D [0, 4×109 ] (Wikipedia)
+
+Do you spot any other inconsistencies in the data? What about the sum of a product’s protein, fat, carbohydrates, salt, and fiber content?
+Despite removing recording errors from the per_hundred columns, some of them still contain “extreme” values, which are distinct from the rest of the data points. Your goal is to pick a few variables from the per_hundred list and address outliers.
+
+C. In-depth Exploratory Data Analysis
+
+Thanks to the previous task, you now have a good intuition of what’s in your dataset and have prepared it for the in-depth analysis that will follow. Your task is to choose two interesting questions to answer about the data and perform the necessary steps for the analysis. The questions that you choose must be complex enough to allow for some substantial data manipulation and visualizations.
+
+Below are some examples of questions that demonstrate the nature and scope we have in mind. You can choose to answer two of these or use them as inspiration for your own questions.
+
+What is the nutrients’ distribution per country? You can choose any subset of the nutrients you want to analyze (e.g. macronutrients, minerals, or vitamins).
+
+Your goal is to analyze organic vs. non-organic products distribution in the Open Food database. Look for terms such as “bio” and “organic” in the product names.
+    Count the number of organic and non-organic products in each country. Is there a country with a higher percentage of organic products?
+    Is there a difference in the nutrients’ distribution between organic and non-organic products in each country?
+
+You will now focus on additives in food products. You can look for terms such as “e415”, or “e472a” in the ingredients_en column. Please note that sometimes there is a whitespace between the character e and the number following it (e.g. “e 512”).
+    What are the top most common additives in the Open Food database?
+    Are there countries with more or less risky additives? To help you answer this question, we provide a risky_additives.csv.zip file with a list of additives in the Resources tab.
+
+Your goal is to find the top common food allergens in the Open Food database. Look for common allergens in the ingredients_en column.
+    What are the top common food allergens in the Open Food database?
+    What is the distribution of common food allergens across countries? Is there a country with a higher percentage of products containing allergens?
+
+You may find the following list of common food allergens from the Food Standards Agency useful:
+
+celery
+cereals containing gluten (such as barley and oats)
+crustaceans (such as prawns, crabs, and lobsters)
+eggs
+fish
+lupin
+milk
+mollusks (such as mussels and oysters)
+mustard
+peanuts
+sesame
+soybeans
+tree nuts (almonds, hazelnuts, walnuts, brazil nuts, cashews, pecans, pistachios, and macadamia nuts).
+
+Choose appropriate visualizations to communicate your findings. Please make sure all plots are visible by choosing an appropriate scale for your axes. D. Text data
+
+The essential methods and skills for data analysis can vary from one data type to another. For instance, text data requires different manipulation techniques than numerical data. One example of text data in the Open Food database is available in the ingredients_en column. In this task, you will work with the ingredients_en column; your goal is to preprocess the text data in this column and answer the following questions.
+
+Which product has the longest ingredients list?
+Which products have the shortest ingredients list?
+Which are the most frequent ingredients in products? You will also choose an appropriate method to visualize your findings.
+
+Be careful with text normalization:
+
+punctuation, e.g., “water.” vs. “water”
+capitalization, e.g., “water” vs. “Water”
+white spaces removal, e.g., “ water” vs. “water”
+special characters, e.g. “raw beef [soja sauce (with ble), …]”
+
+E. Time-series data
+
+Another data type that requires specific methods and skills for analysis is time-series data. Although the Open Food database is not a time-series database, it contains several columns with dates and times, allowing for a simple investigation. In this task, you will work with the created_at column that stores the date and time at which products were added to the Open Food database. You will analyze the total number of products added to the database.
+
+Your task is to investigate the total number of items created each month at each hour. You should use the created_at column to draw a heatmap with the hours (0 to 23) on the x
+
+-axis and the months (1 to 12) on the y -axis. The color of the heatmap should show the number of items created at each month-hour pair. Your task is to investigate the evolution of the total number of items over time. You should draw a bar plot with the date (e.g., in yyyy-mm format) on the x -axis and the total number of items created during each month on the y-axis. Each bar in the plot should stack the number of items created by each country each month. Please make sure all bars are visible by choosing the appropriate scale for the y
+
+-axis. Your output should look like the following plot.
+
+F. Correlation analysis
+
+Data analysis usually entails studying the strength of correlations in the data. This is important because studying correlations helps to set expectations on which machine learning models can better capture these correlations. A correlation analysis can be quantitative (e.g., based on standard correlation measures) or qualitative (e.g., based on visualizations). Also, methods of correlation analysis can vary from one data type to another. In this task, you will do quantitative and qualitative correlation analysis for some of the columns in the data.
+
+Your task is to quantify the linear relationships between the energy_per_hundred and other numerical variables. Use the per_hundred columns and find their correlations with energy_per_hundred.
+Your task is to reveal the true nature of the relationship, linear or non-linear, between variables, using visualizations. Based on the correlation coefficients you found in the previous task, pick the three most correlated and the three least correlated variables (in absolute terms) with the energy_per_hundred column. Plot them against the energy_per_hundred column, using scatterplots. You should obtain these plots as subplots (with 2 rows and 3 columns) or seaborn pairplots.
+Please comment on the visual relationships in a markdown cell. Are they all linear? Are there still extreme values that, once removed, relationships would change?
+Your task is to test the independence of two categorical variables statistically. Use the energy_per_hundred column to create a new variable with three categories low energy, medium energy and high energy. Test if the level of energy in the product is associated with the country where the product is produced.
+
